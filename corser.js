@@ -1,4 +1,6 @@
-var http = require('http');
+var http, port;
+http = require('http');
+port = 80;
 http.createServer(function (req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
@@ -6,5 +8,5 @@ http.createServer(function (req, res) {
     res.end(JSON.stringify({
         message: req.headers.host + ' answered a ' + req.method + ' request.'
     }));
-}).listen(80, '0.0.0.0');
-console.log('Server running at http://127.0.0.1:1337/');
+}).listen(port);
+console.log('Server running on port ' + port + '.');
