@@ -1,8 +1,10 @@
 {
     "name": "corser",
-    "version": "1.0.0",
-    "scripts": {
-        "start": "node corser.js"
+    "version": "0.1.0",
+    "dependencies": {
+        "optimist": "0.2.8"
     },
-    "dependencies": {}
+    "scripts": {
+        "start": "node corser.js -p 80"
+    }
 }
