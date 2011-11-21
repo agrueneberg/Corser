@@ -14,8 +14,11 @@ http.createServer(function (req, res) {
             "host": proxyUrl.host,
             "port": proxyUrl.port || 80,
             "path": proxyUrl.pathname,
-            "method": req.method
+            "method": req.method,
+            "headers": {}
         };
+        // Copy some useful HTTP headers.
+        if (req.headers["accept"]) proxyOptions.headers["accept"] = req.headers["accept"];
         // url.parse does not parse localhost correctly.
         if (proxyOptions.host.indexOf("localhost") !== -1) {
             proxyOptions.host = proxyOptions.host.split(":")[0];
