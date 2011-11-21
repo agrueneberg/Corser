@@ -10,19 +10,19 @@ http.createServer(function (req, res) {
     parsedUrl = url.parse(req.url, true);
     if (parsedUrl.query.hasOwnProperty("url")) {
         proxyUrl = url.parse(parsedUrl.query.url);
-        var proxyObject = {
+        var proxyOptions = {
             "host": proxyUrl.host,
             "port": proxyUrl.port || 80,
             "path": proxyUrl.pathname,
             "method": req.method
         };
         // url.parse does not parse localhost correctly.
-        if (proxyObject.host.indexOf("localhost") !== -1) {
-            proxyObject.host = proxyObject.host.split(":")[0];
+        if (proxyOptions.host.indexOf("localhost") !== -1) {
+            proxyOptions.host = proxyOptions.host.split(":")[0];
         }
         // url.parse does not parse complex pathnames correctly.
-        proxyObject.path += req.url.split(proxyObject.path)[1];
-        var proxyReq = http.request(proxyObject, function (proxyRes) {
+        proxyOptions.path += req.url.split(proxyOptions.path)[1];
+        var proxyReq = http.request(proxyOptions, function (proxyRes) {
             var contentType;
             contentType = proxyRes.headers["content-type"] || "text/plain";
             res.writeHead(200, contentType);
