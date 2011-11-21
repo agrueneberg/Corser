@@ -13,7 +13,7 @@ http.createServer(function (req, res) {
         var proxyObject = {
             "host": proxyUrl.host,
             "port": proxyUrl.port || 80,
-            "path": proxyUrl.path,
+            "path": proxyUrl.pathname,
             "method": req.method
         };
         // url.parse does not parse localhost correctly.
