@@ -16,6 +16,10 @@ http.createServer(function (req, res) {
             "path": proxyUrl.path,
             "method": req.method
         };
+        // url.parse does not parse localhost correctly.
+        if (proxyObject.host.indexOf("localhost") !== -1) {
+            proxyObject.host = proxyObject.host.split(":")[0];
+        }
         var proxyReq = http.request(proxyObject, function (proxyRes) {
             var contentType;
             contentType = proxyRes.headers["content-type"] || "text/plain";
