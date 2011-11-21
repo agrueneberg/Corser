@@ -20,6 +20,8 @@ http.createServer(function (req, res) {
         if (proxyObject.host.indexOf("localhost") !== -1) {
             proxyObject.host = proxyObject.host.split(":")[0];
         }
+        // url.parse does not parse complex pathnames correctly.
+        proxyObject.path += req.url.split(proxyObject.path)[1];
         var proxyReq = http.request(proxyObject, function (proxyRes) {
             var contentType;
             contentType = proxyRes.headers["content-type"] || "text/plain";
