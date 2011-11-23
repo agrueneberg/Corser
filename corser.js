@@ -26,9 +26,10 @@ http.createServer(function (req, res) {
         // url.parse does not parse complex pathnames correctly.
         proxyOptions.path += req.url.split(proxyOptions.path)[1];
         var proxyReq = http.request(proxyOptions, function (proxyRes) {
-            var contentType;
-            contentType = proxyRes.headers["content-type"] || "text/plain";
-            res.writeHead(200, contentType);
+            var resHeaders;
+            resHeaders = {};
+            if (proxyRes.headers.hasOwnProperty("content-type")) resHeaders["Content-Type"] = proxyRes.headers["content-type"];
+            res.writeHead(200, resHeaders);
             proxyRes.on("data", function (chunk) {
                 res.write(chunk);
             });
