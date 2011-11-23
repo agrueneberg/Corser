@@ -6,7 +6,7 @@ http.createServer(function (req, res) {
     var parsedUrl, proxyUrl;
     // Enable Cross-Origin Resource Sharing (CORS).
     res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, HEAD, OPTIONS");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
     parsedUrl = url.parse(req.url, true);
     if (parsedUrl.query.hasOwnProperty("url")) {
         proxyUrl = url.parse(parsedUrl.query.url);
