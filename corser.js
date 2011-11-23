@@ -30,12 +30,8 @@ http.createServer(function (req, res) {
             resHeaders = {};
             if (proxyRes.headers.hasOwnProperty("content-type")) resHeaders["Content-Type"] = proxyRes.headers["content-type"];
             res.writeHead(200, resHeaders);
-            proxyRes.on("data", function (chunk) {
-                res.write(chunk);
-            });
-            proxyRes.on("end", function () {
-                res.end();
-            });
+            // end() is called on res when proxyRes emits end.
+            proxyRes.pipe(res);
         });
         proxyReq.on("error", function (e) {
             res.writeHead(500);
