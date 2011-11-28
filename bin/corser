@@ -33,15 +33,24 @@ http.createServer(function (req, res) {
             resHeaders = {};
             if (proxyRes.headers.hasOwnProperty("content-type")) resHeaders["Content-Type"] = proxyRes.headers["content-type"];
             res.writeHead(200, resHeaders);
-            // end() is called on res when proxyRes emits end.
-            proxyRes.pipe(res);
+            proxyRes.on("data", function (chunk) {
+                res.write(chunk);
+            });
+            proxyRes.on("end", function () {
+                res.end();
+            });
         });
         proxyReq.on("error", function (e) {
             res.writeHead(500);
             res.end("Captain, we crashed: " + e.code + "\n");
         });
-        // Pipe body into proxy request.
-        req.pipe(proxyReq);
+        // I tried to use pipes here, but sometimes they had a hiccup.
+        req.on("data", function (chunk) {
+            proxyReq.write(chunk);
+        });
+        req.on("end", function () {
+            proxyReq.end();
+        });
     } else {
         res.writeHead(400);
         res.end("\"url\", did you pass it?\n");
