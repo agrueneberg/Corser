@@ -7,6 +7,7 @@ http.createServer(function (req, res) {
     // Enable Cross-Origin Resource Sharing (CORS).
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
     parsedUrl = url.parse(req.url, true);
     if (parsedUrl.query.hasOwnProperty("url")) {
         proxyUrl = url.parse(parsedUrl.query.url);
@@ -19,6 +20,7 @@ http.createServer(function (req, res) {
         };
         // Copy some useful HTTP headers.
         if (req.headers.hasOwnProperty("accept")) proxyOptions.headers["Accept"] = req.headers["accept"];
+        if (req.headers.hasOwnProperty("content-type")) proxyOptions.headers["Content-Type"] = req.headers["content-type"];
         // url.parse does not parse localhost correctly.
         if (proxyOptions.host.indexOf("localhost") !== -1) {
             proxyOptions.host = proxyOptions.host.split(":")[0];
@@ -37,7 +39,8 @@ http.createServer(function (req, res) {
             res.writeHead(500);
             res.end("Captain, we crashed: " + e.code + "\n");
         });
-        proxyReq.end();
+        // Pipe body into proxy request.
+        req.pipe(proxyReq);
     } else {
         res.writeHead(400);
         res.end("\"url\", did you pass it?\n");
