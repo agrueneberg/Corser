@@ -1,5 +1,5 @@
 var argv, http, url;
-argv = require("optimist").default("port", 80).alias("p", "port").argv;
+argv = require("optimist").default("port", 1337).alias("p", "port").argv;
 http = require("http");
 url = require("url");
 http.createServer(function (req, res) {
