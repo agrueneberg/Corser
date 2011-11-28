@@ -10,6 +10,7 @@ http.createServer(function (req, res) {
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
     // According to the spec, the headers have to be ASCII lowercase.
     res.setHeader("Access-Control-Allow-Headers", "content-type");
+    res.setHeader("Access-Control-Max-Age", "2520");
     // Answer preflight requests.
     if (req.method === "OPTIONS") {
         res.writeHead(200);
