@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 var argv, http, url;
 argv = require("optimist").default("port", 1337).alias("p", "port").argv;
 http = require("http");

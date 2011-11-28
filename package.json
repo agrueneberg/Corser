@@ -1,10 +1,22 @@
 {
     "name": "corser",
+    "description": "A CORS-enabled HTTP reverse proxy.",
     "version": "0.1.0",
     "dependencies": {
         "optimist": "0.2.8"
     },
+    "author": {
+        "name": "Alexander Grüneberg",
+        "email": "alexander.grueneberg@googlemail.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/agrueneberg/Corser"
+    },
+    "bin": {
+        "corser": "./bin/corser"
+    },
     "scripts": {
-        "start": "node corser.js -p 80"
+        "start": "node bin/corser --port 80"
     }
 }
