@@ -1,7 +1,7 @@
 Corser
 =======
 
-A [CORS](http://www.w3.org/TR/cors/)-enabled HTTP reverse proxy.
+A [CORS](http://www.w3.org/TR/cors/)-enabled HTTP(S) reverse proxy.
 
 
 Examples
@@ -51,7 +51,7 @@ Installation
 * `corser --port 1337`
 
 
-Supported HTTP Methods
+Supported HTTP(S) Methods
 ----------------------
 
 * `GET`
@@ -60,7 +60,7 @@ Supported HTTP Methods
 * `DELETE`
 
 
-Supported HTTP Headers
+Supported HTTP(S) Headers
 ----------------------
 
 ### Request
