@@ -26,6 +26,10 @@ http.createServer(function (req, res) {
                 "method": req.method,
                 "headers": {}
             };
+            // Add auth information if available.
+            if (proxyUrl.hasOwnProperty("auth")) {
+                proxyOptions.auth = proxyUrl.auth;
+            }
             // Copy some useful HTTP headers.
             if (req.headers.hasOwnProperty("accept")) proxyOptions.headers["Accept"] = req.headers["accept"];
             if (req.headers.hasOwnProperty("content-type")) proxyOptions.headers["Content-Type"] = req.headers["content-type"];
