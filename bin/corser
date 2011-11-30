@@ -2,9 +2,10 @@
 var argv, http, url;
 argv = require("optimist").default("port", 1337).alias("p", "port").argv;
 http = require("http");
+https = require("https");
 url = require("url");
 http.createServer(function (req, res) {
-    var parsedUrl, proxyUrl;
+    var parsedUrl, proxyUrl, proxyReq, proxyResHandler;
     // Enable Cross-Origin Resource Sharing (CORS).
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
@@ -21,7 +22,6 @@ http.createServer(function (req, res) {
             proxyUrl = url.parse(parsedUrl.query.url);
             var proxyOptions = {
                 "host": proxyUrl.host,
-                "port": proxyUrl.port || 80,
                 "path": proxyUrl.pathname,
                 "method": req.method,
                 "headers": {}
@@ -39,7 +39,8 @@ http.createServer(function (req, res) {
             }
             // url.parse does not parse complex pathnames correctly.
             proxyOptions.path += req.url.split(proxyOptions.path)[1];
-            var proxyReq = http.request(proxyOptions, function (proxyRes) {
+            // Different protocol, different module, but same response handler.
+            proxyResHandler = function (proxyRes) {
                 var resHeaders;
                 resHeaders = {};
                 if (proxyRes.headers.hasOwnProperty("content-type")) resHeaders["Content-Type"] = proxyRes.headers["content-type"];
@@ -50,7 +51,15 @@ http.createServer(function (req, res) {
                 proxyRes.on("end", function () {
                     res.end();
                 });
-            });
+            };
+            // TODO: Throw error for unsupported protocols.
+            if (proxyUrl.protocol === "http:") {
+                proxyOptions.port = proxyUrl.port || 80;
+                proxyReq = http.request(proxyOptions, proxyResHandler);
+            } else if (proxyUrl.protocol === "https:") {
+                proxyOptions.port = proxyUrl.port || 443;
+                proxyReq = https.request(proxyOptions, proxyResHandler);
+            }
             proxyReq.on("error", function (e) {
                 res.writeHead(500);
                 res.end("Captain, we crashed: " + e.code + "\n");
