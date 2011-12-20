@@ -1,0 +1,7 @@
+#!/usr/bin/env node
+var argv, corser, server;
+argv = require("optimist").default("port", 1337).alias("p", "port").argv;
+corser = require("../lib/corser");
+server = corser.createServer();
+server.listen(argv.port);
+console.log("Corser running on port " + argv.port);
