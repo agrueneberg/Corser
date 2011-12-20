@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-var argv, http, url;
+var argv, http, https, url;
 argv = require("optimist").default("port", 1337).alias("p", "port").argv;
 http = require("http");
 https = require("https");
