@@ -1,7 +1,7 @@
 {
     "name": "corser",
     "description": "A CORS-enabled HTTP(S) reverse proxy.",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "author": {
         "name": "Alexander Grüneberg",
         "email": "alexander.grueneberg@googlemail.com"
