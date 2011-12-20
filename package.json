@@ -1,6 +1,6 @@
 {
     "name": "corser",
-    "description": "A CORS-enabled HTTP reverse proxy.",
+    "description": "A CORS-enabled HTTP(S) reverse proxy.",
     "version": "0.1.0",
     "dependencies": {
         "optimist": "0.2.8"
