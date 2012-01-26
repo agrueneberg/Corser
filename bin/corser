@@ -1,10 +1,15 @@
 #!/usr/bin/env node
-var argv, corser, server;
+var argv, http, corser, server;
 argv = require("optimist").default("port", 1337).alias("p", "port").argv;
+http = require("http");
 corser = require("../lib/corser");
 proxer = require("../lib/proxer");
-server = corser.createServer({
-    handler: proxer.proxy
+server = http.createServer(function (req, res) {
+    corser.getRequestListener(req, res, {
+        handler: function (req, res) {
+            proxer.getRequestListener(req, res);
+        }
+    });
 });
 server.listen(argv.port);
-console.log("Corser running on port " + argv.port);
+console.log("Corser running on port " + argv.port + ".");
