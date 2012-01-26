@@ -2,6 +2,9 @@
 var argv, corser, server;
 argv = require("optimist").default("port", 1337).alias("p", "port").argv;
 corser = require("../lib/corser");
-server = corser.createServer();
+proxer = require("../lib/proxer");
+server = corser.createServer({
+    handler: proxer.proxy
+});
 server.listen(argv.port);
 console.log("Corser running on port " + argv.port);
