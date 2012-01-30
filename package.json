@@ -16,10 +16,14 @@
     "dependencies": {
         "optimist": "0.2.x"
     },
+    "devDependencies": {
+        "jasmine-node": "1.0.20"
+    },
     "engines": {
         "node": "0.4.x || 0.6.x"
     },
     "scripts": {
-        "start": "node bin/corser --port 80"
+        "start": "node bin/corser --port 80",
+        "test": "./node_modules/.bin/jasmine-node ./spec"
     }
 }
