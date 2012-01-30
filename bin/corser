@@ -13,3 +13,5 @@ server = http.createServer(function (req, res) {
 });
 server.listen(argv.port);
 console.log("Corser running on port " + argv.port + ".");
+
+// vim: ft=javascript
