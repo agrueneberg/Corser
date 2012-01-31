@@ -5,9 +5,9 @@ http = require("http");
 corser = require("../lib/corser");
 proxer = require("../lib/proxer");
 server = http.createServer(function (req, res) {
-    corser.getRequestListener(req, res, {
+    corser.requestListener(req, res, {
         handler: function (req, res) {
-            proxer.getRequestListener(req, res);
+            proxer.requestListener(req, res);
         }
     });
 });

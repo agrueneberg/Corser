@@ -25,7 +25,7 @@ describe("Corser", function () {
             res.end();
         };
         server = http.createServer(function (req, res) {
-            corser.getRequestListener(req, res, options);
+            corser.requestListener(req, res, options);
         });
         server.listen(port, host, function () {
             callback();
@@ -214,8 +214,8 @@ describe("Corser", function () {
                 request.headers["Access-Control-Request-Method"] = "GET";
                 req = http.request(request, function (res) {
                     expect(res.statusCode).toEqual(200);
-                    expect(res.headers["access-control-allow-methods"]).toEqual(corser.getSimpleMethods().join(","));
-                    expect(res.headers["access-control-allow-headers"]).toEqual(corser.getSimpleResponseHeaders().join(","));
+                    expect(res.headers["access-control-allow-methods"]).toEqual(corser.simpleMethods.join(","));
+                    expect(res.headers["access-control-allow-headers"]).toEqual(corser.simpleResponseHeaders.join(","));
                     asyncSpecDone();
                 });
                 req.end();
@@ -228,7 +228,7 @@ describe("Corser", function () {
             var additionalMethods;
 
             beforeEach(function () {
-                additionalMethods = corser.getSimpleMethods().concat(["PUT", "DELETE"]);
+                additionalMethods = corser.simpleMethods.concat(["PUT", "DELETE"]);
                 createServer({
                     methods: additionalMethods
                 }, asyncSpecDone);
@@ -241,7 +241,7 @@ describe("Corser", function () {
                 req = http.request(request, function (res) {
                     expect(res.statusCode).toEqual(200);
                     expect(res.headers["access-control-allow-methods"]).toEqual(additionalMethods.join(","));
-                    expect(res.headers["access-control-allow-headers"]).toEqual(corser.getSimpleResponseHeaders().join(","));
+                    expect(res.headers["access-control-allow-headers"]).toEqual(corser.simpleResponseHeaders.join(","));
                     asyncSpecDone();
                 });
                 req.end();
@@ -254,7 +254,7 @@ describe("Corser", function () {
             var additionalHeaders;
 
             beforeEach(function () {
-                additionalHeaders = corser.getSimpleResponseHeaders().concat(["X-Corser"]);
+                additionalHeaders = corser.simpleResponseHeaders.concat(["X-Corser"]);
                 createServer({
                     headers: additionalHeaders
                 }, asyncSpecDone);
@@ -266,7 +266,7 @@ describe("Corser", function () {
                 request.headers["Access-Control-Request-Method"] = "GET";
                 req = http.request(request, function (res) {
                     expect(res.statusCode).toEqual(200);
-                    expect(res.headers["access-control-allow-methods"]).toEqual(corser.getSimpleMethods().join(","));
+                    expect(res.headers["access-control-allow-methods"]).toEqual(corser.simpleMethods.join(","));
                     expect(res.headers["access-control-allow-headers"]).toEqual(additionalHeaders.join(","));
                     asyncSpecDone();
                 });
@@ -343,7 +343,7 @@ describe("Corser", function () {
             var additionalHeaders;
 
             beforeEach(function () {
-                additionalHeaders = corser.getSimpleResponseHeaders().concat(["X-Corser"]);
+                additionalHeaders = corser.simpleResponseHeaders.concat(["X-Corser"]);
                 createServer({
                     headers: additionalHeaders
                 }, asyncSpecDone);
