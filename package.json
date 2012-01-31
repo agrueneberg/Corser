@@ -18,7 +18,7 @@
         "optimist": "0.2.x"
     },
     "devDependencies": {
-        "jasmine-node": "1.0.20"
+        "jasmine-node": "1.0.x"
     },
     "engines": {
         "node": "0.4.x || 0.6.x"
