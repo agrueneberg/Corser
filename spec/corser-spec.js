@@ -19,13 +19,13 @@ describe("Corser", function () {
     });
 
     createServer = function (options, callback) {
-        // Add dummy handler.
-        options.handler = function (req, res) {
-            res.writeHead(200);
-            res.end();
-        };
         server = http.createServer(function (req, res) {
-            corser.requestListener(req, res, options);
+            var requestListener;
+            requestListener = corser.create(options);
+            requestListener(req, res, function () {
+                res.writeHead(200);
+                res.end();
+            });
         });
         server.listen(port, host, function () {
             callback();
