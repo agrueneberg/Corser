@@ -1,14 +1,20 @@
 #!/usr/bin/env node
-var argv, http, corser, server;
+var argv, http, corser, server, requestHeaders, responseHeaders;
 
 argv = require("optimist").default("port", 1337).alias("p", "port").argv;
 http = require("http");
 corser = require("../lib/corser");
 proxer = require("../lib/proxer");
 
+requestHeaders = corser.simpleRequestHeaders.concat(["Range"]);
+responseHeaders = corser.simpleResponseHeaders;
+
 server = http.createServer(function (req, res) {
     var corserRequestListener;
-    corserRequestListener = corser.create();
+    corserRequestListener = corser.create({
+        requestHeaders: requestHeaders,
+        responseHeaders: responseHeaders
+    });
     corserRequestListener(req, res, function () {
         var proxerRequestListener;
         proxerRequestListener = proxer.create();
