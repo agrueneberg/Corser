@@ -209,7 +209,7 @@ describe("Corser", function () {
                 req = http.request(request, function (res) {
                     expect(res.statusCode).toEqual(200);
                     expect(res.headers["access-control-allow-methods"]).toEqual(corser.simpleMethods.join(","));
-                    expect(res.headers["access-control-allow-headers"]).toEqual(corser.simpleRequestHeaders.join(","));
+                    expect(res.headers["access-control-allow-headers"]).toEqual(corser.simpleRequestHeaders.concat(["Origin"]).join(","));
                     asyncSpecDone();
                 });
                 req.end();
@@ -235,7 +235,7 @@ describe("Corser", function () {
                 req = http.request(request, function (res) {
                     expect(res.statusCode).toEqual(200);
                     expect(res.headers["access-control-allow-methods"]).toEqual(additionalMethods.join(","));
-                    expect(res.headers["access-control-allow-headers"]).toEqual(corser.simpleRequestHeaders.join(","));
+                    expect(res.headers["access-control-allow-headers"]).toEqual(corser.simpleRequestHeaders.concat(["Origin"]).join(","));
                     asyncSpecDone();
                 });
                 req.end();
