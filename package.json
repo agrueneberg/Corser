@@ -18,13 +18,14 @@
         "optimist": "0.2.x"
     },
     "devDependencies": {
-        "jasmine-node": "1.0.x"
+        "mocha": "0.11.x",
+        "expect.js": "0.1.x"
     },
     "engines": {
         "node": "0.4.x || 0.6.x"
     },
     "scripts": {
         "start": "node bin/corser --port 80",
-        "test": "./node_modules/.bin/jasmine-node ./spec"
+        "test": "./node_modules/.bin/mocha"
     }
 }
