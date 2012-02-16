@@ -1,6 +1,6 @@
 {
     "name": "corser",
-    "description": "A CORS-enabled HTTP(S) reverse proxy.",
+    "description": "A highly configurable, middleware compatible implementation of CORS.",
     "version": "0.2.0",
     "author": {
         "name": "Alexander Grüneberg",
@@ -11,12 +11,6 @@
         "url": "https://github.com/agrueneberg/Corser"
     },
     "main": "./lib/corser.js",
-    "bin": {
-        "corser": "./bin/corser"
-    },
-    "dependencies": {
-        "optimist": "0.2.x"
-    },
     "devDependencies": {
         "mocha": "0.11.x",
         "expect.js": "0.1.x"
@@ -25,7 +19,6 @@
         "node": "0.4.x || 0.6.x"
     },
     "scripts": {
-        "start": "node bin/corser --port 80",
         "test": "./node_modules/.bin/mocha"
     }
 }
