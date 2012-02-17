@@ -220,6 +220,18 @@ describe("Corser", function () {
             });
         });
 
+        it("should add an Access-Control-Allow-Origin header even though Origin was not added to the list of request headers", function (done) {
+            var requestListener;
+            requestListener = corser.create();
+            req.headers["origin"] = "example.com";
+            req.headers["access-control-request-method"] = "GET";
+            req.headers["access-control-request-headers"] = "Origin";
+            requestListener(req, res, function () {
+                expect(res.headers["access-control-allow-origin"]).not.to.equal(undefined);
+                done();
+            });
+        });
+
         it("should add an Access-Control-Max-Age header of \"50\" if maxAge is set", function (done) {
             var requestListener;
             requestListener = corser.create({
