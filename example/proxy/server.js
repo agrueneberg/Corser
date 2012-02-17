@@ -3,7 +3,7 @@ var argv, http, corser, server, requestHeaders, responseHeaders, corserRequestLi
 argv = require("optimist").default("port", 1337).alias("p", "port").argv;
 http = require("http");
 corser = require("../../lib/corser");
-proxer = require("lib/proxer");
+proxer = require("./lib/proxer");
 
 // In addition to simple HTTP request headers, let's also support Range.
 requestHeaders = corser.simpleRequestHeaders.concat(["Range"]);
