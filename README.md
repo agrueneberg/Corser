@@ -64,31 +64,31 @@ A configuration object can be passed to `corser.create`.
 
 ### `origins`
 
-A case-sensitive list of accepted origins.
+A case-sensitive whitelist of origins. Unless unbound, if the request comes from an origin that is not in this list, it will not be handled by CORS.
 
 Default: unbound, i.e. every origin is accepted.
 
 ### `methods`
 
-An uppercase list of accepted methods.
+An uppercase whitelist of methods. If the request uses a method that is not in this list, it will not be handled by CORS.
 
 Default: simple methods (`GET`, `HEAD`, `POST`).
 
 ### `requestHeaders`
 
-A case-insentitive list of accepted request headers.
+A case-insentitive whitelist of request headers. If the request uses a request header that is not in this list, it will not be handled by CORS.
 
 Default: simple request headers (`Accept`, `Accept-Language`, `Content-Language`, `Content-Type`, `Last-Event-ID`).
 
 ### `responseHeaders`
 
-A case-insensitive list of accepted response headers.
+A case-insensitive whitelist of response headers. Any response header that is not in this list will be filtered out by the user-agent (the browser).
 
 Default: simple response headers (`Cache-Control`, `Content-Language`, `Content-Type`, `Expires`, `Last-Modified`, `Pragma`).
 
 ### `supportsCredentials`
 
-A boolean that indicates if credentials can be transfered as part of a CORS request. Currently, only a few HTML5 elements can benefit from this setting.
+A boolean that indicates if cookie credentials can be transfered as part of a CORS request. Currently, only a few HTML5 elements can benefit from this setting.
 
 Default: `false`.
 
