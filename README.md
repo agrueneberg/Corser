@@ -97,3 +97,9 @@ Default: `false`.
 An integer that indicates the maximum amount of time in seconds that a preflight request is kept in the client-side preflight result cache.
 
 Default: not set.
+
+
+Issues
+------
+
+- [Chrome <= 17 does not respect `Access-Control-Expose-Headers`](http://code.google.com/p/chromium/issues/detail?id=87338). This has been fixed recently and is already included in the latest Canary build (tested with 19.0.1057.0).
