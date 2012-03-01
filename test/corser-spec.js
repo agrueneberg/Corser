@@ -121,7 +121,7 @@ describe("Corser", function () {
             });
             req.headers["origin"] = "example.com";
             requestListener(req, res, function () {
-                expect(res.headers["access-control-expose-headers"]).to.equal("X-Corser");
+                expect(res.headers["access-control-expose-headers"]).to.equal("x-corser");
                 done();
             });
         });
