@@ -12,7 +12,7 @@
     },
     "licenses": [{
         "type": "The MIT License",
-        "url": "http://www.opensource.org/licenses/mit-license.php",
+        "url": "http://www.opensource.org/licenses/mit-license.php"
     }],
     "main": "./lib/corser.js",
     "devDependencies": {
