@@ -16,7 +16,7 @@
     }],
     "main": "./lib/corser.js",
     "devDependencies": {
-        "mocha": "1.0.x",
+        "mocha": "1.2.x",
         "expect.js": "0.1.x"
     },
     "engines": {
