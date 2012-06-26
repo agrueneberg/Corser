@@ -20,7 +20,7 @@
         "expect.js": "0.1.x"
     },
     "engines": {
-        "node": "0.4.x || 0.6.x || 0.7.x"
+        "node": ">= 0.4.0"
     },
     "scripts": {
         "test": "./node_modules/.bin/mocha"
