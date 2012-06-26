@@ -1,7 +1,7 @@
 {
     "name": "corser",
     "description": "A highly configurable, middleware compatible implementation of CORS.",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "author": {
         "name": "Alexander Grüneberg",
         "email": "alexander.grueneberg@googlemail.com"
