@@ -1,6 +1,5 @@
-var argv, connect, corser;
+var connect, corser;
 
-argv = require("optimist").default("port", 1337).alias("p", "port").argv;
 connect = require("connect");
 corser = require("../../lib/corser");
 
@@ -16,6 +15,6 @@ connect.createServer(
             res.end("Nice weather today, huh?");
         }
     }
-).listen(argv.port);
+).listen(1337);
 
-console.log("Server running on port " + argv.port + ".");
+console.log("Server running on port 1337.");
