@@ -267,6 +267,21 @@ describe("Corser", function () {
             });
         });
 
+        it("should add an Access-Control-Allow-Headers header that includes x-corser even though the name of the header in the Access-Control-Request-Headers header is not a case-sensitive match", function (done) {
+            var requestListener, requestHeaders;
+            requestHeaders = corser.simpleRequestHeaders.concat(["x-corser"]);
+            requestListener = corser.create({
+                requestHeaders: requestHeaders
+            });
+            req.headers["origin"] = "example.com";
+            req.headers["access-control-request-method"] = "GET";
+            req.headers["access-control-request-headers"] = "X-Corser";
+            requestListener(req, res, function () {
+                expect(res.headers["access-control-allow-headers"]).to.eql(requestHeaders.join(","));
+                done();
+            });
+        });
+
     });
 
 });
