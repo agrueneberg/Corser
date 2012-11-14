@@ -30,21 +30,66 @@ describe("Corser", function () {
     });
 
     it("should not add any headers if the given origin does not match one of the origins in the list of origins", function (done) {
-        var requestListener;
+        var requestListener, origins;
+        origins =  ["example.com"]
         requestListener = corser.create({
-            origins: ["example.com"],
+            origins: origins
         });
         req.headers["origin"] = "fake.com";
         requestListener(req, res, function () {
             expect(Object.keys(res.headers).length).to.equal(0);
-            done();
+            requestListener = corser.create({
+                origins: function(origin, cb) {
+                    cb(origins.indexOf(origin) != -1);
+                }
+            });
+            requestListener(req, res, function () {
+                expect(Object.keys(res.headers).length).to.equal(0);
+                done();
+            });
+
+        });
+    });
+
+    it("should support passing a function as origins and it should work both synchronously and asynchronously", function (done) {
+        var requestListener, origins;
+        origins = ["example.com"];
+        requestListener = corser.create({
+            origins: function(originHeader, callback) {
+                process.nextTick(function() {
+                    callback(origins.indexOf(originHeader) != -1);
+                });
+            }
+        });
+        req.headers["origin"] = "fake.com";
+        requestListener(req, res, function () {
+            expect(Object.keys(res.headers).length).to.equal(0);
+            req.headers["origin"] = "example.com";
+            requestListener(req, res, function () {
+                expect(Object.keys(res.headers).length).to.equal(1);
+                requestListener = corser.create({
+                    origins: function(originHeader, callback) {
+                            callback(origins.indexOf(originHeader) != -1);
+                    }
+                });
+                res.headers = {};
+                requestListener(req, res, function () {
+                    expect(Object.keys(res.headers).length).to.equal(1);
+                    req.headers["origin"] = "fake.com";
+                    res.headers = {};
+                    requestListener(req, res, function () {
+                        expect(Object.keys(res.headers).length).to.equal(0);
+                        done();
+                    });
+                });
+            });
         });
     });
 
     it("should not add any headers if the given origin is not a case-sentitive match of one of the origins in the list of origins", function (done) {
         var requestListener;
         requestListener = corser.create({
-            origins: ["example.com"],
+            origins: ["example.com"]
         });
         req.headers["origin"] = "eXaMpLe.cOm";
         requestListener(req, res, function () {
@@ -54,7 +99,6 @@ describe("Corser", function () {
     });
 
     describe("An actual request", function () {
-
         it("should add an Access-Control-Allow-Origin header of \"*\" for any given origin if the list of origins in unbound", function (done) {
             var requestListener;
             requestListener = corser.create();
@@ -68,7 +112,7 @@ describe("Corser", function () {
         it("should add an Access-Control-Allow-Origin header of \"example.com\" if the given origin matches one of the origins in the list of origins", function (done) {
             var requestListener;
             requestListener = corser.create({
-                origins: ["example.com"],
+                origins: ["example.com"]
             });
             req.headers["origin"] = "example.com";
             requestListener(req, res, function () {
@@ -91,16 +135,28 @@ describe("Corser", function () {
         });
 
         it("should add an Access-Control-Allow-Origin header of \"example.com\" and an Access-Control-Allow-Credentials header of \"true\" if credentials are supported and the given origin matches one of the origins in the list of origins", function (done) {
-            var requestListener;
+            var requestListener, origins;
+            origins = ["example.com"];
             requestListener = corser.create({
-                origins: ["example.com"],
+                origins: origins,
                 supportsCredentials: true
             });
             req.headers["origin"] = "example.com";
             requestListener(req, res, function () {
                 expect(res.headers["access-control-allow-origin"]).to.equal("example.com");
                 expect(res.headers["access-control-allow-credentials"]).to.equal("true");
-                done();
+                requestListener = corser.create({
+                    origins: function(origin, cb) {
+                        cb(origins.indexOf(origin) != -1);
+                    },
+                    supportsCredentials: true
+                });
+                res.headers = {};
+                requestListener(req, res, function () {
+                    expect(res.headers["access-control-allow-origin"]).to.equal("example.com");
+                    expect(res.headers["access-control-allow-credentials"]).to.equal("true");
+                    done();
+                });
             });
         });
 
@@ -181,7 +237,7 @@ describe("Corser", function () {
         it("should add an Access-Control-Allow-Origin header of \"example.com\" if the given origin matches one of the origins in the list of origins", function (done) {
             var requestListener;
             requestListener = corser.create({
-                origins: ["example.com"],
+                origins: ["example.com"]
             });
             req.headers["origin"] = "example.com";
             req.headers["access-control-request-method"] = "GET";
@@ -281,7 +337,5 @@ describe("Corser", function () {
                 done();
             });
         });
-
     });
-
 });
