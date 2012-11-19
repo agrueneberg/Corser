@@ -31,33 +31,35 @@ describe("Corser", function () {
 
     it("should not add any headers if the given origin does not match one of the origins in the list of origins", function (done) {
         var requestListener, origins;
-        origins =  ["example.com"]
+        origins = ["example.com"];
+        // Test with array.
         requestListener = corser.create({
             origins: origins
         });
         req.headers["origin"] = "fake.com";
         requestListener(req, res, function () {
             expect(Object.keys(res.headers).length).to.equal(0);
+            // Test with function.
             requestListener = corser.create({
-                origins: function(origin, cb) {
-                    cb(origins.indexOf(origin) != -1);
+                origins: function (originHeader, callback) {
+                    callback(origins.indexOf(originHeader) !== -1);
                 }
             });
             requestListener(req, res, function () {
                 expect(Object.keys(res.headers).length).to.equal(0);
                 done();
             });
-
         });
     });
 
     it("should support passing a function as origins and it should work both synchronously and asynchronously", function (done) {
         var requestListener, origins;
         origins = ["example.com"];
+        // Test with asynchronous function.
         requestListener = corser.create({
-            origins: function(originHeader, callback) {
+            origins: function (originHeader, callback) {
                 process.nextTick(function() {
-                    callback(origins.indexOf(originHeader) != -1);
+                    callback(origins.indexOf(originHeader) !== -1);
                 });
             }
         });
@@ -67,9 +69,10 @@ describe("Corser", function () {
             req.headers["origin"] = "example.com";
             requestListener(req, res, function () {
                 expect(Object.keys(res.headers).length).to.equal(1);
+                // Test with synchronous function.
                 requestListener = corser.create({
-                    origins: function(originHeader, callback) {
-                            callback(origins.indexOf(originHeader) != -1);
+                    origins: function (originHeader, callback) {
+                        callback(origins.indexOf(originHeader) !== -1);
                     }
                 });
                 res.headers = {};
@@ -99,6 +102,7 @@ describe("Corser", function () {
     });
 
     describe("An actual request", function () {
+
         it("should add an Access-Control-Allow-Origin header of \"*\" for any given origin if the list of origins in unbound", function (done) {
             var requestListener;
             requestListener = corser.create();
@@ -137,6 +141,7 @@ describe("Corser", function () {
         it("should add an Access-Control-Allow-Origin header of \"example.com\" and an Access-Control-Allow-Credentials header of \"true\" if credentials are supported and the given origin matches one of the origins in the list of origins", function (done) {
             var requestListener, origins;
             origins = ["example.com"];
+            // Test with array.
             requestListener = corser.create({
                 origins: origins,
                 supportsCredentials: true
@@ -145,9 +150,10 @@ describe("Corser", function () {
             requestListener(req, res, function () {
                 expect(res.headers["access-control-allow-origin"]).to.equal("example.com");
                 expect(res.headers["access-control-allow-credentials"]).to.equal("true");
+                // Test with function.
                 requestListener = corser.create({
-                    origins: function(origin, cb) {
-                        cb(origins.indexOf(origin) != -1);
+                    origins: function (origin, callback) {
+                        callback(origins.indexOf(origin) !== -1);
                     },
                     supportsCredentials: true
                 });
@@ -337,5 +343,7 @@ describe("Corser", function () {
                 done();
             });
         });
+
     });
+
 });
