@@ -102,7 +102,7 @@ A configuration object with the following properties can be passed to `corser.cr
 
 A case-sensitive whitelist of origins. Unless unbound, if the request comes from an origin that is not in this list, it will not be handled by CORS.
 
-To allow for dynamic origin checking, a function `(origin, callback)` can be passed instead of an array. `origin` is the Origin header, `callback` is a function `(matches)`, where `matches` is a boolean flag that indicates whether the given Origin header matches or not.
+To allow for dynamic origin checking, a function `(origin, callback)` can be passed instead of an array. `origin` is the Origin header, `callback` is a function `(err, matches)`, where `matches` is a boolean flag that indicates whether the given Origin header matches or not.
 
 Default: unbound, i.e. every origin is accepted.
 
