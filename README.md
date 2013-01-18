@@ -114,7 +114,7 @@ Default: simple methods (`GET`, `HEAD`, `POST`).
 
 ##### `requestHeaders`
 
-A case-insentitive whitelist of request headers. If the request uses a request header that is not in this list, it will not be handled by CORS.
+A case-insensitive whitelist of request headers. If the request uses a request header that is not in this list, it will not be handled by CORS.
 
 Default: simple request headers (`Accept`, `Accept-Language`, `Content-Language`, `Content-Type`, `Last-Event-ID`).
 
@@ -126,7 +126,7 @@ Default: simple response headers (`Cache-Control`, `Content-Language`, `Content-
 
 ##### `supportsCredentials`
 
-A boolean that indicates if cookie credentials can be transfered as part of a CORS request. Currently, only a few HTML5 elements can benefit from this setting.
+A boolean that indicates if cookie credentials can be transferred as part of a CORS request. Currently, only a few HTML5 elements can benefit from this setting.
 
 Default: `false`.
 
