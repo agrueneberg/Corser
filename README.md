@@ -169,9 +169,3 @@ You want to allow clients to read the `ETag` header of a response. Pass the foll
     corser.create({
         responseHeaders: ["ETag"]
     });
-
-
-Issues
-------
-
-- [Chrome <= 17 does not respect `Access-Control-Expose-Headers`](http://code.google.com/p/chromium/issues/detail?id=87338). This has been fixed recently and is already included in the latest Canary build (tested with 19.0.1057.0).
