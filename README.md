@@ -149,6 +149,19 @@ Check if the `Origin` header of your request matches one of the origins provided
 
 Your request might use a non-simple method or one or more non-simple headers. According to the specification, the set of simple methods is `GET`, `HEAD`, and `POST`, and the set of simple request headers is `Accept`, `Accept-Language`, `Content-Language`, `Content-Type`, and `Last-Event-ID`. If your request uses **any** other method or header, you have to explicitly list them in the `methods` or `requestHeaders` property of the configuration object.
 
+
+### I'm using nginx and ...
+
+For some reason nginx eats `OPTIONS` requests and just returns `405`. You have to handle CORS manually. Check out [this blog post by Rogério Vicente](http://blog.rogeriopvl.com/archives/nginx-and-the-http-options-method/) or add something like this to your nginx configuration file:
+
+    if ($request_method = 'OPTIONS') { 
+        add_header 'Access-Control-Allow-Origin' '*'; 
+        add_header 'Access-Control-Allow-Methods' 'POST,OPTIONS'; 
+        add_header 'Access-Control-Allow-Headers' 'Content-Type'; 
+        return 200; 
+    }
+
+
 #### Example
 
 You want to allow requests that use a `Referer` header. Pass the following configuration object to `corser.create`:
