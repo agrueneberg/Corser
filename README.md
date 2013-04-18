@@ -1,7 +1,7 @@
 Corser
 =======
 
-A highly configurable, middleware compatible implementation of [CORS](http://www.w3.org/TR/cors/).
+A highly configurable, middleware compatible implementation of [CORS](http://www.w3.org/TR/cors/) for [Node.js](http://nodejs.org/).
 
 [![Build Status](https://secure.travis-ci.org/agrueneberg/Corser.png)](http://travis-ci.org/agrueneberg/Corser)
 
