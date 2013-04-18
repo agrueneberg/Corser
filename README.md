@@ -140,12 +140,12 @@ Default: not set.
 FAQ
 ---
 
-### My Ajax call returns `Origin *X* is not allowed by Access-Control-Allow-Origin`.
+### My Ajax call returns `Origin X is not allowed by Access-Control-Allow-Origin`.
 
 Check if the `Origin` header of your request matches one of the origins provided in the `origins` property of the configuration object. If you didn't set any `origins` property, jump to the next question.
 
 
-### My Ajax call still returns `Origin *X* is not allowed by Access-Control-Allow-Origin`.
+### My Ajax call still returns `Origin X is not allowed by Access-Control-Allow-Origin`.
 
 Your request might use a non-simple method or one or more non-simple headers. According to the specification, the set of simple methods is `GET`, `HEAD`, and `POST`, and the set of simple request headers is `Accept`, `Accept-Language`, `Content-Language`, `Content-Type`, and `Last-Event-ID`. If your request uses **any** other method or header, you have to explicitly list them in the `methods` or `requestHeaders` property of the configuration object.
 
