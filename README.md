@@ -152,10 +152,10 @@ Your request might use a non-simple method or one or more non-simple headers. Ac
 
 #### Example
 
-You want to allow requests that use a `Referer` header. Pass the following configuration object to `corser.create`:
+You want to allow requests that use an `X-Requested-With` header. Pass the following configuration object to `corser.create`:
 
     corser.create({
-        requestHeaders: ["Referer"]
+        requestHeaders: ["X-Requested-With"]
     });
 
 
