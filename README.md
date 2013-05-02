@@ -155,7 +155,7 @@ Your request might use a non-simple method or one or more non-simple headers. Ac
 You want to allow requests that use an `X-Requested-With` header. Pass the following configuration object to `corser.create`:
 
     corser.create({
-        requestHeaders: ["X-Requested-With"]
+        requestHeaders: corser.simpleRequestHeaders.concat(["X-Requested-With"])
     });
 
 
@@ -168,5 +168,5 @@ Your browser blocks every non-simple response headers that was not explicitly al
 You want to allow clients to read the `ETag` header of a response. Pass the following configuration object to `corser.create`:
 
     corser.create({
-        responseHeaders: ["ETag"]
+        responseHeaders: corser.simpleResponseHeaders.concat(["ETag"])
     });
