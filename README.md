@@ -159,7 +159,7 @@ You want to allow requests that use a `Referer` header. Pass the following confi
     });
 
 
-### xhr.getResponseHeader returns `Refused to get unsafe header "xxxxxx"`.
+### Getting a response header returns `Refused to get unsafe header "X"`.
 
 Your browser blocks every non-simple response headers that was not explicitly allowed in the preflight request. The set of simple response headers is `Cache-Control`, `Content-Language`, `Content-Type`, `Expires`, `Last-Modified`, `Pragma`. If you want to access **any** other response header, you have to explicitly list them in the `responseHeaders` property of the configuration object.
 
