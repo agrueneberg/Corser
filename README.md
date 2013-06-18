@@ -59,10 +59,6 @@ See `example/connect/server.js` for a working example.
         }
     ).listen(1337);
 
-### HTTP Proxy
-
-See `example/proxy/server.js` for a working example of a CORS-enabled HTTP proxy.
-
 
 API
 ---
