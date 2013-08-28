@@ -1,0 +1,7 @@
+{
+    "name": "corser-connect-example",
+    "private": true,
+    "dependencies": {
+        "connect": ""
+    }
+}
