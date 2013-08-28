@@ -60,6 +60,32 @@ See `example/connect/` for a working example.
 
     app.listen(1337);
 
+### How to use Corser as a middleware in Express
+
+See `example/express/` for a working example.
+
+    var express, corser, app;
+
+    express = require("express");
+    corser = require("corser");
+
+    app = express();
+
+    app.use(corser.create());
+
+    app.options("*", function (req, res) {
+        // Finish preflight request.
+        res.writeHead(204);
+        res.end();
+    });
+
+    app.get("/", function (req, res) {
+        res.writeHead(200);
+        res.end("Nice weather today, huh?");
+    });
+
+    app.listen(1337);
+
 
 API
 ---

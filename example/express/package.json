@@ -1,0 +1,7 @@
+{
+    "name": "corser-express-example",
+    "private": true,
+    "dependencies": {
+        "express": ""
+    }
+}
