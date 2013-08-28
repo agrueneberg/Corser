@@ -36,7 +36,7 @@ Examples
 
 ### How to use Corser as a middleware in Connect
 
-See `example/connect/server.js` for a working example.
+See `example/connect/` for a working example.
 
     var connect, corser, app;
 
