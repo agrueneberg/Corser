@@ -1,28 +1,24 @@
 {
     "name": "corser",
-    "description": "A highly configurable, middleware compatible implementation of CORS.",
     "version": "1.2.0",
-    "author": {
-        "name": "Alexander Grüneberg",
-        "email": "alexander.grueneberg@googlemail.com"
-    },
+    "description": "A highly configurable, middleware compatible implementation of CORS.",
+    "keywords": ["cors", "cross-origin resource sharing", "connect", "express", "middleware"],
+    "bugs": "https://github.com/agrueneberg/Corser/issues",
+    "license": "MIT",
+    "author": "Alexander Grüneberg <alexander.grueneberg@googlemail.com>",
+    "main": "./lib/corser.js",
     "repository": {
         "type": "git",
-        "url": "https://github.com/agrueneberg/Corser"
+        "url": "https://github.com/agrueneberg/Corser.git"
     },
-    "licenses": [{
-        "type": "The MIT License",
-        "url": "http://www.opensource.org/licenses/mit-license.php"
-    }],
-    "main": "./lib/corser.js",
+    "scripts": {
+        "test": "./node_modules/.bin/mocha"
+    },
     "devDependencies": {
         "mocha": "1.3.x",
         "expect.js": "0.1.x"
     },
     "engines": {
         "node": ">= 0.4.0"
-    },
-    "scripts": {
-        "test": "./node_modules/.bin/mocha"
     }
 }
