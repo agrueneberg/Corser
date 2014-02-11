@@ -133,17 +133,23 @@ Default: unbound, i.e. every origin is accepted.
 
 An uppercase whitelist of methods. If the request uses a method that is not in this list, it will not be handled by CORS.
 
+Setting a value here will overwrite the list of default simple methods. To not lose them, concat the methods you want to add with `corser.simpleMethods`: `corser.simpleMethods.concat(["PUT", "DELETE"])`.
+
 Default: simple methods (`GET`, `HEAD`, `POST`).
 
 ##### `requestHeaders`
 
 A case-insensitive whitelist of request headers. If the request uses a request header that is not in this list, it will not be handled by CORS.
 
+Setting a value here will overwrite the list of default simple request headers. To not lose them, concat the request headers you want to add with `corser.simpleRequestHeaders`: `corser.simpleRequestHeaders.concat(["Authorization"])`.
+
 Default: simple request headers (`Accept`, `Accept-Language`, `Content-Language`, `Content-Type`, `Last-Event-ID`).
 
 ##### `responseHeaders`
 
 A case-insensitive whitelist of response headers. Any response header that is not in this list will be filtered out by the user-agent (the browser).
+
+Setting a value here will overwrite the list of default simple response headers. To not lose them, concat the response headers you want to add with `corser.simpleResponseHeaders`: `corser.simpleResponseHeaders.concat(["ETag"])`.
 
 Default: simple response headers (`Cache-Control`, `Content-Language`, `Content-Type`, `Expires`, `Last-Modified`, `Pragma`).
 
