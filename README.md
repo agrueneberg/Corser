@@ -5,6 +5,14 @@ A highly configurable, middleware compatible implementation of [CORS](http://www
 
 [![Build Status](https://secure.travis-ci.org/agrueneberg/Corser.png)](http://travis-ci.org/agrueneberg/Corser)
 
+Changelog
+---------
+
+### 2.0 (March 22, 2014)
+
+* Preflight requests are automatically closed. If there is a need for handling `OPTIONS` requests, check the `endPreflightRequests` option.
+* The parameters of the callback function in dynamic origin checking are now `(err, matches)` instead of just `(matches)`.
+
 
 Examples
 --------
