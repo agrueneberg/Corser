@@ -8,14 +8,8 @@ app = connect();
 app.use(corser.create());
 
 app.use(function (req, res) {
-    // Finish preflight request.
-    if (req.method === "OPTIONS") {
-        res.writeHead(204);
-        res.end();
-    } else {
-        res.writeHead(200);
-        res.end("Nice weather today, huh?");
-    }
+    res.writeHead(200);
+    res.end("Nice weather today, huh?");
 });
 
 app.listen(1337);
