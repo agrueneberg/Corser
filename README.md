@@ -9,23 +9,25 @@ A highly configurable, middleware compatible implementation of [CORS](http://www
 Examples
 --------
 
-### How to use Corser with `http`
+### How to use Corser as a middleware in Express
 
-    var http, corser, corserRequestListener;
+See `example/express/` for a working example.
 
-    http = require("http");
+    var express, corser, app;
+
+    express = require("express");
     corser = require("corser");
 
-    // Create Corser request listener.
-    corserRequestListener = corser.create();
+    app = express();
 
-    http.createServer(function (req, res) {
-        // Route req and res through the request listener.
-        corserRequestListener(req, res, function () {
-            res.writeHead(200);
-            res.end("Nice weather today, huh?");
-        });
-    }).listen(1337);
+    app.use(corser.create());
+
+    app.get("/", function (req, res) {
+        res.writeHead(200);
+        res.end("Nice weather today, huh?");
+    });
+
+    app.listen(1337);
 
 ### How to use Corser as a middleware in Connect
 
@@ -47,25 +49,23 @@ See `example/connect/` for a working example.
 
     app.listen(1337);
 
-### How to use Corser as a middleware in Express
+### How to use Corser with plain `http`
 
-See `example/express/` for a working example.
+    var http, corser, corserRequestListener;
 
-    var express, corser, app;
-
-    express = require("express");
+    http = require("http");
     corser = require("corser");
 
-    app = express();
+    // Create Corser request listener.
+    corserRequestListener = corser.create();
 
-    app.use(corser.create());
-
-    app.get("/", function (req, res) {
-        res.writeHead(200);
-        res.end("Nice weather today, huh?");
-    });
-
-    app.listen(1337);
+    http.createServer(function (req, res) {
+        // Route req and res through the request listener.
+        corserRequestListener(req, res, function () {
+            res.writeHead(200);
+            res.end("Nice weather today, huh?");
+        });
+    }).listen(1337);
 
 
 API
