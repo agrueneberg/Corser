@@ -42,7 +42,7 @@ describe("Corser", function () {
             // Test with function.
             requestListener = corser.create({
                 origins: function (originHeader, callback) {
-                    callback(origins.indexOf(originHeader) !== -1);
+                    callback(null, origins.indexOf(originHeader) !== -1);
                 }
             });
             requestListener(req, res, function () {
@@ -59,7 +59,7 @@ describe("Corser", function () {
         requestListener = corser.create({
             origins: function (originHeader, callback) {
                 process.nextTick(function() {
-                    callback(origins.indexOf(originHeader) !== -1);
+                    callback(null, origins.indexOf(originHeader) !== -1);
                 });
             }
         });
@@ -72,7 +72,7 @@ describe("Corser", function () {
                 // Test with synchronous function.
                 requestListener = corser.create({
                     origins: function (originHeader, callback) {
-                        callback(origins.indexOf(originHeader) !== -1);
+                        callback(null, origins.indexOf(originHeader) !== -1);
                     }
                 });
                 res.headers = {};
@@ -86,6 +86,65 @@ describe("Corser", function () {
                     });
                 });
             });
+        });
+    });
+
+    it("should not accept any non-boolean value as the second parameter of an match origin callback", function (done) {
+        var requestListener;
+        req.headers["origin"] = "example.com";
+        // Test undefined.
+        requestListener = corser.create({
+            origins: function (originHeader, callback) {
+                callback(null);
+            }
+        });
+        requestListener(req, res, function () {
+            expect(Object.keys(res.headers).length).to.equal(0);
+            // Test null.
+            requestListener = corser.create({
+                origins: function (originHeader, callback) {
+                    callback(null, null);
+                }
+            });
+            requestListener(req, res, function () {
+                expect(Object.keys(res.headers).length).to.equal(0);
+                // Test number.
+                requestListener = corser.create({
+                    origins: function (originHeader, callback) {
+                        callback(null, 4711);
+                    }
+                });
+                requestListener(req, res, function () {
+                    expect(Object.keys(res.headers).length).to.equal(0);
+                    // Test string.
+                    requestListener = corser.create({
+                        origins: function (originHeader, callback) {
+                            callback(null, "test");
+                        }
+                    });
+                    requestListener(req, res, function () {
+                        expect(Object.keys(res.headers).length).to.equal(0);
+                        done();
+                    });
+                });
+            });
+        });
+    });
+
+    it("should expose errors encountered in the match origin callback", function (done) {
+        var requestListener;
+        requestListener = corser.create({
+            origins: function (originHeader, callback) {
+                callback({
+                    message: "Something went wrong!",
+                    status: 500
+                });
+            }
+        });
+        req.headers["origin"] = "example.com";
+        requestListener(req, res, function (err) {
+            expect(err).to.not.be(undefined);
+            done();
         });
     });
 
@@ -153,7 +212,7 @@ describe("Corser", function () {
                 // Test with function.
                 requestListener = corser.create({
                     origins: function (origin, callback) {
-                        callback(origins.indexOf(origin) !== -1);
+                        callback(null, origins.indexOf(origin) !== -1);
                     },
                     supportsCredentials: true
                 });
