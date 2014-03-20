@@ -22,15 +22,8 @@ Examples
     http.createServer(function (req, res) {
         // Route req and res through the request listener.
         corserRequestListener(req, res, function () {
-            if (req.method === "OPTIONS") {
-                // End CORS preflight request.
-                res.writeHead(204);
-                res.end();
-            } else {
-                // Your code goes here.
-                res.writeHead(200);
-                res.end("Nice weather today, huh?");
-            }
+            res.writeHead(200);
+            res.end("Nice weather today, huh?");
         });
     }).listen(1337);
 
@@ -48,14 +41,8 @@ See `example/connect/` for a working example.
     app.use(corser.create());
 
     app.use(function (req, res) {
-        // Finish preflight request.
-        if (req.method === "OPTIONS") {
-            res.writeHead(204);
-            res.end();
-        } else {
-            res.writeHead(200);
-            res.end("Nice weather today, huh?");
-        }
+        res.writeHead(200);
+        res.end("Nice weather today, huh?");
     });
 
     app.listen(1337);
@@ -72,12 +59,6 @@ See `example/express/` for a working example.
     app = express();
 
     app.use(corser.create());
-
-    app.options("*", function (req, res) {
-        // Finish preflight request.
-        res.writeHead(204);
-        res.end();
-    });
 
     app.get("/", function (req, res) {
         res.writeHead(200);
@@ -98,21 +79,21 @@ Creating a Corser request listener that generates the appropriate response heade
 
 This is the equivalent of setting a response header of `Access-Control-Allow-Origin: *`. If you want to restrict the origins, or allow more sophisticated request or response headers, you have to pass a configuration object to `corser.create`.
 
-To give you full control over everything that happens, Corser will not end preflight requests for you. A preflight request is a special `OPTIONS` request that the browser sends under certain conditions to negotiate with the server what methods, request headers and response headers are allowed for a CORS request. If you don't understand the full impact of this and don't use the `OPTIONS` method for any custom stuff, just end those requests manually after they were routed through the request listener:
+Corser will automatically end preflight requests for you. A preflight request is a special `OPTIONS` request that the browser sends under certain conditions to negotiate with the server what methods, request headers and response headers are allowed for a CORS request. If you need to use the `OPTIONS` method for other stuff, just set `endPreflight` to `false` and terminate those requests yourself:
 
-    // Let the request go through the request listener first.
+    var corserRequestListener;
+
+    corserRequestListener = corser.create({
+        endPreflight: false
+    });
+
     corserRequestListener(req, res, function () {
-        // CORS preflight requests use the OPTIONS method.
         if (req.method === "OPTIONS") {
             // End CORS preflight request.
             res.writeHead(204);
             res.end();
         } else {
-
-            //
-            // Your code goes here.
-            //
-
+            // Implement other HTTP methods.
         }
     });
 
@@ -158,6 +139,12 @@ Default: `false`.
 An integer that indicates the maximum amount of time in seconds that a preflight request is kept in the client-side preflight result cache.
 
 Default: not set.
+
+##### `endPreflight`
+
+A boolean that indicates if CORS preflight requests should be automatically closed.
+
+Default: `true`.
 
 
 FAQ
