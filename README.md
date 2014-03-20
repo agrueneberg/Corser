@@ -79,12 +79,12 @@ Creating a Corser request listener that generates the appropriate response heade
 
 This is the equivalent of setting a response header of `Access-Control-Allow-Origin: *`. If you want to restrict the origins, or allow more sophisticated request or response headers, you have to pass a configuration object to `corser.create`.
 
-Corser will automatically end preflight requests for you. A preflight request is a special `OPTIONS` request that the browser sends under certain conditions to negotiate with the server what methods, request headers and response headers are allowed for a CORS request. If you need to use the `OPTIONS` method for other stuff, just set `endPreflight` to `false` and terminate those requests yourself:
+Corser will automatically end preflight requests for you. A preflight request is a special `OPTIONS` request that the browser sends under certain conditions to negotiate with the server what methods, request headers and response headers are allowed for a CORS request. If you need to use the `OPTIONS` method for other stuff, just set `endPreflightRequests` to `false` and terminate those requests yourself:
 
     var corserRequestListener;
 
     corserRequestListener = corser.create({
-        endPreflight: false
+        endPreflightRequests: false
     });
 
     corserRequestListener(req, res, function () {
@@ -140,7 +140,7 @@ An integer that indicates the maximum amount of time in seconds that a preflight
 
 Default: not set.
 
-##### `endPreflight`
+##### `endPreflightRequests`
 
 A boolean that indicates if CORS preflight requests should be automatically closed.
 
