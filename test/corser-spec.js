@@ -16,7 +16,15 @@ describe("Corser", function () {
             setHeader: function (name, value) {
                 this.headers[name.toLowerCase()] = value;
             },
-            headers: {}
+            headers: {},
+            writeHead: function (status) {
+                this.status = status;
+            },
+            status: null,
+            end: function () {
+                this.ended = true;
+            },
+            ended: false
         };
     });
 
@@ -257,7 +265,9 @@ describe("Corser", function () {
 
         it("should not add any headers if an Access-Control-Request-Method header is not present in the request", function (done) {
             var requestListener;
-            requestListener = corser.create();
+            requestListener = corser.create({
+                endPreflight: false
+            });
             req.headers["origin"] = "example.com";
             requestListener(req, res, function () {
                 expect(Object.keys(res.headers).length).to.equal(0);
@@ -267,7 +277,9 @@ describe("Corser", function () {
 
         it("should not add any headers if the Access-Control-Request-Method header contains a non-simple method", function (done) {
             var requestListener;
-            requestListener = corser.create();
+            requestListener = corser.create({
+                endPreflight: false
+            });
             req.headers["origin"] = "example.com";
             req.headers["access-control-request-method"] = "PUT";
             requestListener(req, res, function () {
@@ -278,7 +290,9 @@ describe("Corser", function () {
 
         it("should not add any headers if the Access-Control-Request-Headers header contains a non-simple request header", function (done) {
             var requestListener;
-            requestListener = corser.create();
+            requestListener = corser.create({
+                endPreflight: false
+            });
             req.headers["origin"] = "example.com";
             req.headers["access-control-request-method"] = "GET";
             req.headers["access-control-request-headers"] = "X-Corser";
@@ -290,7 +304,9 @@ describe("Corser", function () {
 
         it("should add an Access-Control-Allow-Origin header of \"*\" for any given origin if the list of origins in unbound", function (done) {
             var requestListener;
-            requestListener = corser.create();
+            requestListener = corser.create({
+                endPreflight: false
+            });
             req.headers["origin"] = "example.org";
             req.headers["access-control-request-method"] = "GET";
             requestListener(req, res, function () {
@@ -302,7 +318,8 @@ describe("Corser", function () {
         it("should add an Access-Control-Allow-Origin header of \"example.com\" if the given origin matches one of the origins in the list of origins", function (done) {
             var requestListener;
             requestListener = corser.create({
-                origins: ["example.com"]
+                origins: ["example.com"],
+                endPreflight: false
             });
             req.headers["origin"] = "example.com";
             req.headers["access-control-request-method"] = "GET";
@@ -315,7 +332,8 @@ describe("Corser", function () {
         it("should add an Access-Control-Allow-Origin header of \"example.com\" and an Access-Control-Allow-Credentials header of \"true\" if credentials are supported and the list of origins in unbound", function (done) {
             var requestListener;
             requestListener = corser.create({
-                supportsCredentials: true
+                supportsCredentials: true,
+                endPreflight: false
             });
             req.headers["origin"] = "example.com";
             req.headers["access-control-request-method"] = "GET";
@@ -330,7 +348,8 @@ describe("Corser", function () {
             var requestListener;
             requestListener = corser.create({
                 origins: ["example.com"],
-                supportsCredentials: true
+                supportsCredentials: true,
+                endPreflight: false
             });
             req.headers["origin"] = "example.com";
             req.headers["access-control-request-method"] = "GET";
@@ -343,7 +362,9 @@ describe("Corser", function () {
 
         it("should add an Access-Control-Allow-Origin header even though Origin was not added to the list of request headers", function (done) {
             var requestListener;
-            requestListener = corser.create();
+            requestListener = corser.create({
+                endPreflight: false
+            });
             req.headers["origin"] = "example.com";
             req.headers["access-control-request-method"] = "GET";
             req.headers["access-control-request-headers"] = "Origin";
@@ -356,7 +377,8 @@ describe("Corser", function () {
         it("should add an Access-Control-Max-Age header of \"50\" if maxAge is set", function (done) {
             var requestListener;
             requestListener = corser.create({
-                maxAge: 50
+                maxAge: 50,
+                endPreflight: false
             });
             req.headers["origin"] = "example.com";
             req.headers["access-control-request-method"] = "GET";
@@ -368,7 +390,9 @@ describe("Corser", function () {
 
         it("should add an Access-Control-Allow-Methods header with all methods that are in the list of methods", function (done) {
             var requestListener;
-            requestListener = corser.create();
+            requestListener = corser.create({
+                endPreflight: false
+            });
             req.headers["origin"] = "example.com";
             req.headers["access-control-request-method"] = "GET";
             requestListener(req, res, function () {
@@ -379,7 +403,9 @@ describe("Corser", function () {
 
         it("should add an Access-Control-Allow-Headers header with all request headers that are in the list of request headers", function (done) {
             var requestListener;
-            requestListener = corser.create();
+            requestListener = corser.create({
+                endPreflight: false
+            });
             req.headers["origin"] = "example.com";
             req.headers["access-control-request-method"] = "GET";
             requestListener(req, res, function () {
@@ -392,7 +418,8 @@ describe("Corser", function () {
             var requestListener, requestHeaders;
             requestHeaders = corser.simpleRequestHeaders.concat(["x-corser"]);
             requestListener = corser.create({
-                requestHeaders: requestHeaders
+                requestHeaders: requestHeaders,
+                endPreflight: false
             });
             req.headers["origin"] = "example.com";
             req.headers["access-control-request-method"] = "GET";
@@ -401,6 +428,16 @@ describe("Corser", function () {
                 expect(res.headers["access-control-allow-headers"]).to.eql(requestHeaders.join(","));
                 done();
             });
+        });
+
+        it("should end preflight requests by default", function () {
+            var requestListener;
+            requestListener = corser.create();
+            req.headers["origin"] = "example.org";
+            req.headers["access-control-request-method"] = "GET";
+            requestListener(req, res);
+            expect(res.status).to.be(204);
+            expect(res.ended).to.be(true);
         });
 
     });
