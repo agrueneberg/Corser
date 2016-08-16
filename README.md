@@ -14,7 +14,7 @@ Changelog
 
 * Add workaround for [Chrome 52 sending empty `Access-Control-Request-Headers` header](https://bugs.chromium.org/p/chromium/issues/detail?id=633729).
 
-### 2.0 (March 22, 2014)
+### 2.0.0 (March 22, 2014)
 
 * Preflight requests are automatically closed. If there is a need for handling `OPTIONS` requests, check the `endPreflightRequests` option.
 * The parameters of the callback function in dynamic origin checking are now `(err, matches)` instead of just `(matches)`.
