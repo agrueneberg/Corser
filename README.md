@@ -118,11 +118,11 @@ A configuration object with the following properties can be passed to `corser.cr
 
 ##### `origins`
 
-A case-sensitive whitelist of origins. Unless unbound, if the request comes from an origin that is not in this list, it will not be handled by CORS.
+A case-sensitive whitelist of origins. If the request comes from an origin that is not in this list, it will not be handled by CORS. To accept all origins (the `Access-Control-Allow-Origin: *` behavior), omit the property or set it to an empty array (`[]`).
 
 To allow for dynamic origin checking, a function `(origin, callback)` can be passed instead of an array. `origin` is the Origin header, `callback` is a function `(err, matches)`, where `matches` is a boolean flag that indicates whether the given Origin header matches or not.
 
-Default: unbound, i.e. every origin is accepted.
+Default: all origins are accepted.
 
 ##### `methods`
 
