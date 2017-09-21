@@ -189,6 +189,19 @@ You want to allow requests that use an `X-Requested-With` header. Pass the follo
     });
 
 
+### Request returns `Request header field Content-Type is not allowed by Access-Control-Allow-Headers`
+
+A default configuration will only work if the client sends a "simple" request, i.e., `GET`, `HEAD`, `POST` as method, and some headers such as `Accept`, `Accept-Language`, `Content-Language`, and `Content-Type`, etc. `Content-Type` has an important restriction: only `application/x-www-form-urlencoded`, `multipart/form-data`, and `text/plain` are allowed.
+
+Typically the `Content-Type` of an API will be `application/json`, and this is not allowed by default. `Content-Type` needs to be explicitly specified in the configuration object under the `requestHeaders` key:
+
+#### Example
+
+    corser.create({
+        requestHeaders: corser.simpleRequestHeaders.concat(["Content-Type"])
+    });
+
+
 ### Getting a response header returns `Refused to get unsafe header "X"`
 
 Your browser blocks every non-simple response headers that was not explicitly allowed in the preflight request. The set of simple response headers is `Cache-Control`, `Content-Language`, `Content-Type`, `Expires`, `Last-Modified`, `Pragma`. If you want to access **any** other response header, you have to explicitly list them in the `responseHeaders` property of the configuration object.
