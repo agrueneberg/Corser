@@ -440,6 +440,19 @@ describe("Corser", function () {
             expect(res.ended).to.be(true);
         });
 
+        it("should end preflight requests that do not match", function () {
+            var requestListener;
+            requestListener = corser.create({
+              origins: function(origin, callback) { callback(null, false) },
+              endPreflightRequests: true
+            });
+            req.headers["origin"] = "example.org";
+            req.headers["access-control-request-method"] = "GET";
+            requestListener(req, res);
+            expect(res.status).to.be(204);
+            expect(res.ended).to.be(true);
+        });
+
     });
 
 });
